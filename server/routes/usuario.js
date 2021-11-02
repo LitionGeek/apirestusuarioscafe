@@ -14,7 +14,7 @@ app.get('/usuario', verificaToken, function(req, res) {
         estado:true
     }
     
-    Usuario.find({estado:true}, 'nombre email')
+    Usuario.find({paramEstado}, 'nombre email')
     .skip(desde)
     .limit(limite)
     .exec((err,usuarios)=>{
@@ -24,11 +24,12 @@ app.get('/usuario', verificaToken, function(req, res) {
                 err
             })
         }
-        Usuario.count({estado:true,},(err,conteo)=>{
+        console.log('Usuario: ',usuarios)
+        Usuario.count({estado:true},(err,conteo)=>{
             res.json({
             ok:true,
-            usuarios,
-            total:conteo
+            usuarios/* ,
+            //total:conteo */
             })
         });  
     })
