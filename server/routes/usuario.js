@@ -9,6 +9,7 @@ const { verificaToken,verificaAdminRole } = require('../middlewares/autenticacio
 app.get('/usuario', verificaToken, function(req, res) {
     
     let desde = Number(req.query.desde) || 0;
+    
     let limite = Number(req.query.limit) || 5;
     let paramEstado = {
         estado:true
