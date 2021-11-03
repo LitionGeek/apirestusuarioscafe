@@ -1,4 +1,5 @@
 require('./config/config');
+const path = require('path')
 const dotenv = require('dotenv').config();
 var bodyParser = require('body-parser')    
 
@@ -15,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+app.use(express.static(path.resolve(__dirname,'../public')));
 
 mongoose.connect(process.env.URLDB 
     ,(err,res)=>{
