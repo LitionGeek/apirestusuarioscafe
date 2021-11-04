@@ -11,7 +11,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 // ============================
 //  Vencimiento de Token
 // ============================
-process.env.CADUCIDAD_TOKEN = 60*60*24*30;
+process.env.CADUCIDAD_TOKEN = '48h';
 
 // ============================
 //  SEED de auth
@@ -31,10 +31,10 @@ if(process.env.NODE_ENV ==='dev'){
     //URI mongodb+srv://litiongeek:mason123@cluster0.da6lp.mongodb.net/cafe
 } 
 
-process.env.URLDB = urlDB;
+process.env.URLDB = urlDB;         
 
 // ============================
 //  Google Client ID
 // ============================
 
-process.env.CLIENT_ID = process.env.CLIENT_ID || '233344395838-ch5sns0pgbgst0rse33vj5hpts2c0kuk.apps.googleusercontent.com'
+process.env.CLIENT_ID = process.env.CLIENT_ID || '233344395838-ch5sns0pgbgst0rse33vj5hpts2c0kuk.apps.googleusercontent.com';
