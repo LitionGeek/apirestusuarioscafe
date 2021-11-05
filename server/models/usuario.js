@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const uniqueValidator = require('mongoose-unique-validator')
+
 
 
 let rolesValidos = {
@@ -47,7 +47,5 @@ usuarioSchema.methods.toJSON = function(){
     delete userObjec.password;
     return userObjec;
 }
-
-usuarioSchema.plugin(uniqueValidator),{message:'{PATH} email debe ser unico!'};
 
 module.exports = mongoose.model('Usuario',usuarioSchema)
