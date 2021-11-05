@@ -36,14 +36,15 @@ app.get('/usuario', verificaToken, function(req, res) {
     })
 });
 
-app.post('/usuario', [verificaToken,verificaAdminRole], function(req, res) {
+app.post('/usuario', function(req, res) {
 
     let body = req.body.persona;
     let usuario = new Usuario({
         nombre:body.nombre,
         email:body.email,
         password:bcrypt.hashSync(body.password ,12),
-        role:body.role
+        role:body.role,
+        img: body.img || null
     });
 
     usuario.save((err,usuarioDB)=>{
