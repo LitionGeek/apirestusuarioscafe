@@ -73,7 +73,8 @@ function imagenUsuario(id, res, nombreArchivo) {
             borrarArchivo(nombreArchivo,'usuarios');
             return res.status(500).json({
                 ok: false,
-                err
+                err,
+                message:'Error al intentar conectar la DB'
             });
         }
 
