@@ -56,8 +56,13 @@ app.put('/upload/:tipo/:id',(req,res)=>{
                 err
             })
         }
-
-        imagenUsuario(id, res, defaultNombreArchivo);
+        if(tipo ==='usuario'){
+            imagenUsuario(id, res, defaultNombreArchivo);
+        }
+        else{
+            imagenProducto(id, res, defaultNombreArchivo);
+        }
+        
     })
 })
 
@@ -65,6 +70,7 @@ app.put('/upload/:tipo/:id',(req,res)=>{
 function imagenUsuario(id, res, nombreArchivo) {
     Usuario.findById(id, (err, usuarioDB) => {
         if (err) {
+            borrarArchivo(nombreArchivo,'usuarios');
             return res.status(500).json({
                 ok: false,
                 err
@@ -72,18 +78,16 @@ function imagenUsuario(id, res, nombreArchivo) {
         }
 
         if (!usuarioDB) {
+            borrarArchivo(nombreArchivo,'usuarios');
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'Usuaro no existe'
+                    message: 'Usuario no existe'
                 }
             });
         }
 
-        let pathUrl = path.resolve(__dirname,`../../uploads/usuarios/${usuarioDB.img}`)
-        if(fs.existsSync(pathUrl)){
-            fs.unlinkSync(pathUrl)
-        }
+        borrarArchivo(usuarioDB.img,'usuarios')
 
         usuarioDB.img = nombreArchivo;
         usuarioDB.save((err, usuarioGuardado) => {
@@ -104,10 +108,53 @@ function imagenUsuario(id, res, nombreArchivo) {
     });
 }
 
-
-
-function imagenProducto(){
+function borrarArchivo(nombreImagen,tipo){
+    let pathUrl = path.resolve(__dirname,`../../uploads/${tipo}/${nombreImagen}`)
+    if(fs.existsSync(pathUrl)){
+        fs.unlinkSync(pathUrl)
+    }
     
+}
+
+function imagenProducto(id, res, nombreArchivo){
+    Producto.findById(id, (err, productoDB) => {
+        if (err) {
+            borrarArchivo(nombreArchivo,'productos');
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (!productoDB) {
+            borrarArchivo(nombreArchivo,'productos');
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Producto no existe'
+                }
+            });
+        }
+
+        borrarArchivo(productoDB.img,'productos')
+
+        productoDB.img = nombreArchivo;
+        productoDB.save((err, productoGuardado) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err,
+                    message:'Error al conectar'
+                });
+            }
+            res.json({
+                ok: true,
+                producto: productoGuardado,
+                img: nombreArchivo
+            });
+
+        });
+    });
 }
 
 module.exports = app;
